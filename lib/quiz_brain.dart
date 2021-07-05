@@ -34,7 +34,7 @@ class QuizBrain {
   ];
 
   void nextQuestion() {
-    if (_questionNumber < _questionBank.length) {
+    if (_questionNumber < _questionBank.length - 1) {
       _questionNumber++;
     }
   }
@@ -45,5 +45,21 @@ class QuizBrain {
 
   bool getQuestionAnswer() {
     return _questionBank[_questionNumber].questionAnswer;
+  }
+
+  void reset() {
+    _questionNumber = 0;
+  }
+
+  bool isFinished() {
+    if (_questionNumber == _questionBank.length-1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void shuffleQuestions() {
+    _questionBank.shuffle();
   }
 }
