@@ -29,6 +29,17 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
+  // int countCorrectAnswer(List<Icon> scoreKeeper, Icon icon) {
+  //   if (scoreKeeper.isEmpty) {
+  //     return 0;
+  //   }
+
+  //   var foundElements = scoreKeeper.where(
+  //     (e) => e == Icon(Icons.check),
+  //   );
+  //   return foundElements.length;
+  // }
+
   var quizBrain = QuizBrain();
 
   void checkAnswer(bool userAnswer) {
