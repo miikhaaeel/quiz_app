@@ -3,6 +3,7 @@ import 'package:quizapp/quiz_brain.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() => runApp(QuizzApp());
+var quizBrain = QuizBrain();
 
 class QuizzApp extends StatelessWidget {
   @override
@@ -29,63 +30,69 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  // int countCorrectAnswer(List<Icon> scoreKeeper, Icon icon) {
-  //   if (scoreKeeper.isEmpty) {
-  //     return 0;
-  //   }
-
-  //   var foundElements = scoreKeeper.where(
-  //     (e) => e == Icon(Icons.check),
+  // int scoreSheet() {
+  //   setState(() {});
+  //   Iterable<Icon> score = scoreKeeper.where(
+  //     (element) => element == Icon(Icons.check),
   //   );
+  //   print(score.length.toString());
+  //   return score.length;
+  // }
+
+  // int countCorrectAnswer() {
+  //   var foundElements =
+  //       scoreKeeper.where((e) => e == Icon(Icons.check, color: Colors.green));
+  //   print(foundElements.length);
   //   return foundElements.length;
   // }
 
-  var quizBrain = QuizBrain();
-
   void checkAnswer(bool userAnswer) {
     bool correctAnswer = quizBrain.getQuestionAnswer();
-    if (quizBrain.isFinished() == true) {
-      Alert(
-        context: context,
-        type: AlertType.success,
-        title: "You finished the quiz",
-        desc: "You scored ",
-        buttons: [
-          DialogButton(
-            child: Text(
-              "Restart",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              quizBrain.reset();
-              scoreKeeper.clear();
-              quizBrain.shuffleQuestions();
-            },
-            width: 120,
-          )
-        ],
-      ).show();
-    } else {
-      if (userAnswer == correctAnswer) {
-        scoreKeeper.add(
-          Icon(
-            Icons.check,
-            color: Colors.green,
-          ),
-        );
-      } else {
-        scoreKeeper.add(
-          Icon(
-            Icons.close,
-            color: Colors.red,
-          ),
-        );
-      }
-      setState(() {
-        quizBrain.nextQuestion();
-      });
-    }
+    setState(
+      () {
+        if (quizBrain.isFinished() == true) {
+          Alert(
+            context: context,
+            type: AlertType.success,
+            title: "You finished the quiz",
+            desc: "You scored ",
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "Restart",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+
+                  quizBrain.reset();
+                  scoreKeeper.clear();
+                  quizBrain.shuffleQuestions();
+                },
+                width: 120,
+              )
+            ],
+          ).show();
+        } else {
+          if (userAnswer == correctAnswer) {
+            scoreKeeper.add(
+              Icon(
+                Icons.check,
+                color: Colors.green,
+              ),
+            );
+          } else {
+            scoreKeeper.add(
+              Icon(
+                Icons.close,
+                color: Colors.red,
+              ),
+            );
+          }
+          quizBrain.nextQuestion();
+        }
+      },
+    );
   }
 
   @override
@@ -94,6 +101,28 @@ class _QuizPageState extends State<QuizPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              quizBrain.questionNumberText(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              '0',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ),
         Expanded(
           flex: 5,
           child: Padding(

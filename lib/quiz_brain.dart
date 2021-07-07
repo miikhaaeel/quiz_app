@@ -50,7 +50,7 @@ class QuizBrain {
   }
 
   bool isFinished() {
-    if (_questionNumber == _questionBank.length - 1) {
+    if (_questionNumber >= _questionBank.length - 1) {
       return true;
     } else {
       return false;
@@ -59,5 +59,9 @@ class QuizBrain {
 
   void shuffleQuestions() {
     _questionBank.shuffle();
+  }
+
+  String questionNumberText() {
+    return (_questionNumber+1).toString();
   }
 }
